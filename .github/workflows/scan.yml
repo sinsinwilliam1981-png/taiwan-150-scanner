@@ -1,0 +1,38 @@
+name: Taiwan 150 scan
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 10 * * 1-5"
+permissions:
+  contents: write
+concurrency:
+  group: taiwan-150-scan
+  cancel-in-progress: false
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12", cache: pip}
+      - run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest -q
+      - name: Scan (strict gate)
+        id: scan
+        continue-on-error: true
+        env:
+          FINMIND_TOKEN: ${{ secrets.FINMIND_TOKEN }}
+        run: python -m scanner.run
+      - name: Save results
+        if: always() && steps.scan.outcome != 'skipped'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add site/data/latest.json site/data/history/
+          git diff --cached --quiet || git commit -m "data: update Taiwan 150 scan"
+          git push
+      - name: Enforce completeness gate
+        if: steps.scan.outcome != 'success'
+        run: exit 1
