@@ -1,0 +1,6 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "taiwan-150-trigger",
+  "main": "worker.js",
+  "compatibility_date": "2026-10-10"
+}

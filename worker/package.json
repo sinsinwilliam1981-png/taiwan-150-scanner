@@ -1,0 +1,6 @@
+{
+  "name": "taiwan-150-trigger",
+  "private": true,
+  "scripts": { "deploy": "wrangler deploy" },
+  "devDependencies": { "wrangler": "^4.0.0" }
+}
