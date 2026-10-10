@@ -1,0 +1,19 @@
+name: Bootstrap project
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack project
+        run: |
+          unzip -o taiwan-150-scanner.zip
+          rm -f taiwan-150-scanner.zip .github/workflows/bootstrap.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Install Taiwan 150 scanner"
+          git push
