@@ -1,0 +1,15 @@
+{
+  "minimum_trading_days": 120,
+  "lookback_calendar_days": 220,
+  "max_workers": 5,
+  "request_pause_seconds": 0.15,
+  "strategy": {
+    "volume_ratio_min": 1.2,
+    "rsi_min": 50,
+    "rsi_max": 70,
+    "max_extension_from_ma20_pct": 8,
+    "near_trigger_score": 60,
+    "candidate_score": 75
+  }
+}
+
